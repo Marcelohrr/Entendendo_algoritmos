@@ -1,0 +1,21 @@
+def tail_recursion(x, acumulador=1):
+    if x == 0:
+        return acumulador
+    else:
+        return tail_recursion(x - 1, acumulador * x)
+
+exemplo_valor = 3
+print(f'Fatorial de {exemplo_valor} = {tail_recursion(exemplo_valor)}.')
+
+'''
+Na recursão padrão, as funções incompletas ficam salvas na memória.
+Com tail recursion, cada execução carrega o resultado parcial, o que permite (em linguagens com otimização de cauda, como Scheme e Haskell) reusar o mesmo espaço de memória — como se fosse um loop.
+Python não otimiza tail recursion, então ainda consome a pilha normalmente.
+
+Funcionamento:
+função(3, 1)
+    return função(2, 1 * 3)
+        return função(1, 3 * 2)
+            return função(0, 3 * 2)
+                return acumulador -> 6
+'''
