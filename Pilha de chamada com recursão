@@ -1,0 +1,24 @@
+def call_stack_recursao(x):
+    if x == 1:
+        return 1
+    else:
+        return x * call_stack_recursao(x - 1)
+
+exemplo_valor = 3
+print(f'Fatorial de {exemplo_valor} = {call_stack_recursao(exemplo_valor)}.')
+
+'''
+Funcionamento:
+função(3)
+    return 3 * função(2)
+        return 2 * função(1) -> função(1) retorna 1 (Last In, First Out!)
+
+função(2) retorna 2 * 1:
+função(3)
+    return 3 * função(2)
+        return 2 * 1
+
+função(3) retorna 3 * 2 * 1:
+função(3)
+    return 3 * 2 * 1
+'''
