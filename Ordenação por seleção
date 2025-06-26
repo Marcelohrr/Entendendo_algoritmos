@@ -1,0 +1,13 @@
+def selection_sort(lista):
+    if len(lista) == 0:
+        return None
+    for i in range(0, len(lista)):
+        posição_menor = i
+        for j in range(i + 1, len(lista)):
+            if lista[j] < lista[posição_menor]:
+                posição_menor = j
+        lista[i], lista[posição_menor] = lista[posição_menor], lista[i]
+    return lista
+
+exemplo_lista = [0, 10, 8, -5, 2]
+print(f'Lista ordenada: {selection_sort(exemplo_lista)}.')
