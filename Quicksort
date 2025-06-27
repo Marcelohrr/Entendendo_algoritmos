@@ -1,0 +1,38 @@
+def quicksort(lista):
+    if len(lista) < 2:
+        return lista
+    else:
+        pivô = lista[0]
+        sublista_menor = [x for x in lista[1:] if x <= pivô]
+        sublista_maior = [x for x in lista[1:] if x > pivô]
+        return quicksort(sublista_menor) + [pivô] + quicksort(sublista_maior)
+
+exemplo_lista = [-5, 2, 0, -10, 8, 17]
+print(f'Lista ordenada: {quicksort(exemplo_lista)}.')
+
+'''
+Funcionamento:
+função([-5, 2, 0, -10, 8, 17]) -> pivô = -5
+    return função([-10]) + [-5] + função([2, 0, 8, 17])
+
+    função([-10])
+        return [-10]
+
+    função([2, 0, 8, 17])      -> pivô = 2
+        return função([0]) + [2] + função([8, 17])
+
+        função([0])
+            return [0]
+
+        função([8, 17])        -> pivô = 8
+            return função([]) + [8] + função([17])
+
+            função([17])
+                return [17]
+
+função([-5, 2, 0, -10, 8, 17])
+= função([-10]) + [-5] + função([2, 0, 8, 17])
+= [-10, -5] + função([0]) + [2] + função([8, 17])
+= [-10, -5, 0, 2] + função([]) + [8] + função([17])
+= [-10, -5, 0, 2, 8, 17]
+'''
