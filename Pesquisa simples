@@ -1,0 +1,16 @@
+def pesquisa_simples(lista, x):
+    for i, valor in enumerate(lista):
+        if valor == x:
+            print(f'O item {x} é o {i + 1}º item da lista (índice {i}).')
+            return True
+    print(f'O item {x} não está na lista.')
+    return False
+
+exemplo_lista = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+pesquisa_simples(exemplo_lista, 80)
+
+'''
+A pesquisa binária possui tempo de execução logarítmico, O(log n).
+Portanto, é mais eficiente do que a pesquisa simples, que possui tempo de execução linear, O(n).
+Entretanto, a pesquisa binária exige lista ordenada. Às vezes, o custo de ordenação pode não compensar.
+'''
