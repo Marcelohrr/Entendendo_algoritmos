@@ -1,0 +1,43 @@
+registro_total = []
+
+def votação():
+    while True:
+        registro_individual = {}
+        while True:
+            falha = False
+            nome = input('Nome: ').strip().capitalize()
+            for nomes in registro_total:
+                if nomes['Nome'] == nome:
+                    print(f'O nome {nome} já foi cadastrado.')
+                    falha = True
+                    break
+            if falha:
+                continuar = input('Gostaria de tentar novamente?').strip().lower()
+                if continuar in ('não', 'nao', 'n'):
+                    break
+            else:
+                registro_individual['Nome'] = nome
+                print('Nome cadastrado com sucesso!')
+                break
+        if falha == False:
+            while True:
+                try:
+                    voto = int(input('Voto: '))
+                except ValueError:
+                    print('Voto não reconhecido.')
+                    continuar = input('Gostaria de tentar novamente?').strip().lower()
+                    if continuar in ('não', 'nao', 'n'):
+                        break
+                else:
+                    registro_individual['Voto'] = voto
+                    print('Voto cadastrado com sucesso!')
+                    registro_total.append(registro_individual)
+                    break
+            continuar = input('Gostaria de realizar novo voto?').strip().lower()
+            if continuar in ('não', 'nao', 'n'):
+                break
+    print(f'Votação:')
+    for p, registro in enumerate(registro_total):
+        print(f"{registro['Nome']}: {registro['Voto']};") if p < len(registro_total) - 1 else print(f"{registro['Nome']}: {registro['Voto']}.")
+
+votação()
