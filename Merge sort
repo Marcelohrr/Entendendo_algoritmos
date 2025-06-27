@@ -1,0 +1,41 @@
+def merge_sort(lista):
+    if len(lista) <= 1:
+        return lista
+    meio = len(lista) // 2
+    esquerda = merge_sort(lista[:meio]) # Slice em que o índice meio é excluído
+    direita = merge_sort(lista[meio:])  # Slice em que o índice meio é incluído
+    return merge(esquerda, direita)     # Só executado depois de ter retornado um único valor para esquerda e outro único para direita
+
+def merge(e, d):
+    resultado = []
+    i = j = 0
+    while i < len(e) and j < len(d):    # Enquanto houver algum item nas duas listas (conferindo pela posição de referência)...
+        if e[i] <= d[j]:                # se o item à esquerda for menor ou igual...
+            resultado.append(e[i])      # o adiciona na lista resultado;
+            i += 1
+        else:                           # se o item à direita for menor...
+            resultado.append(d[j])      # o adiciona na lista resultado.
+            j += 1
+    resultado.extend(e[i:])             # Adiciona o resto de e, se sobrou algo.
+    resultado.extend(d[j:])             # Adiciona o resto de d, se sobrou algo.
+    return resultado
+
+exemplo_lista = [-5, 2, 0, -10, 8, 17]
+print(f'Lista ordenada: {merge_sort(exemplo_lista)}.')
+
+'''
+A velocidade do algoritmo quicksort depende do pivô escolhido. No pior caso, possui tempo de execução O(n²); no caso médio, O(n log n).
+O merge sort possui sempre tempo de execução O(n log n), mas o quicksort tem uma constante menor do que o merge sort.
+
+Funcionamento:
+função1([-5, 2, 0, -10, 8, 17]) -> esquerda = função1(lista[-5, 2, 0]); direita = função1(lista[-10, 8, 17])
+    e: função1([-5, 2, 0]) -> esquerda = função1([-5]), que retorna -5; direita = função1([2, 0])
+    d: função1([-10, 8, 17]) -> esquerda = função1([-10]), que retorna [-10]; direita = função1([8, 17])
+        ed: função1([2, 0]) -> esquerda = função1([2]), que retorna 2; direita = função1([0]), que retorna 0
+            função2([2], [0]) -> [0, 2]
+        função2([-5], [0, 2]) -> [-5, 0, 2]
+        dd: função1([8, 17]) -> esquerda = função1([8]), que retorna 8; direita = função1([17]), que retorna 17    
+            função2([8], [17]) -> [8, 17]
+        função2([-10], [8, 17]) -> [-10, 8, 17]
+    função2([-5, 0, 2], [-10, 8, 17]) -> [-10, -5, 0, 2, 8, 17]
+'''
