@@ -1,0 +1,7 @@
+def euclides(a, b):
+    while a != 0:
+        a, b = b % a, a    # Quando b % a == 0, MDC = b
+    return b
+
+x, y = 55, 11
+print(f'O máximo divisor comum entre {x} e {y} é {euclides(x, y)}.')
