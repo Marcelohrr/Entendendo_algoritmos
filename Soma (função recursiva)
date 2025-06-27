@@ -1,0 +1,18 @@
+def soma(lista):
+    if len(lista) == 0:
+        return 0
+    else:
+        return lista[0] + soma(lista[1:]) # A cada chamada recursiva, lista[1:] cria uma nova sublista na memória com os itens restantes
+
+exemplo_lista = [1, 3, 6]
+print(f'A soma dos valores na lista {exemplo_lista} é igual a {soma(exemplo_lista)}.')
+
+'''
+Funcionamento:
+função([1, 3, 6])
+= 1 + função([3, 6])           # lista[0] = 1, chama com lista[1:] = [3, 6]
+= 1 + (3 + função([6]))        # lista[0] = 3, chama com lista[1:] = [6]
+= 1 + (3 + (6 + função([])))   # lista[0] = 6, chama com lista[1:] = []
+= 1 + (3 + (6 + 0))            # lista vazia retorna 0 (caso base)
+= 1 + (3 + 6) = 10
+'''
