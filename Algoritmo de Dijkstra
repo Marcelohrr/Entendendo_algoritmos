@@ -1,0 +1,32 @@
+import heapq # O módulo heapq fornece uma fila de prioridade eficiente para acessar cada vértice com a menor distância
+
+def dijkstra(grafo, start, end):
+    distância = {v: (0 if v == start else float('inf')) for v in grafo} # Cria o dicionário distância inicializando o primeiro vértice igual a 0 e todos os outros iguais a infinito (indicando que ainda não foram alcançados)
+    pais = {start: None} # Cria um dicionário pais para rastrear o caminho, iniciando com o start que não tem pai
+    fila = [(0, start)] # Inicializa a fila de prioridade com o nó inicial e custo zero
+    while fila:
+        custo_atual, vértice_atual = heapq.heappop(fila) # Retorna a tupla (custo, vértice) com menor custo da fila - custo_atual não é usado, mas serve para isolar o custo
+        if vértice_atual == end: # Se encontrou o destino (garantido de ser o menor possível, porque o Dijkstra sempre processa os vértices em ordem crescente de custo acumulado)...
+            break # interrompe
+        for vizinho, peso in grafo[vértice_atual].items(): # Na 1ª passagem do while, percorre 'A', 6 e 'B', 2 em grafo['início']
+            nova_distância = distância[vértice_atual] + peso # Calcula a distância acumulada do início até o vizinho, passando por vértice_atual
+            if nova_distância < distância[vizinho]: # A primeira distância encontrada sempre é menor do que a inicial, que é infinita. Se a nova distância for menor do que a antiga...
+                distância[vizinho] = nova_distância # atualiza a menor distância conhecida até vizinho...
+                pais[vizinho] = vértice_atual # e registra que o melhor caminho até vizinho vem por vértice_atual
+                heapq.heappush(fila, (nova_distância, vizinho)) # Adiciona a tupla (nova_distância, vizinho) na fila de prioridade
+    caminho = []
+    vértice_atual = end
+    while vértice_atual is not None:
+        caminho.insert(0, vértice_atual)
+        vértice_atual = pais.get(vértice_atual)
+    return distância[end], caminho
+
+exemplo_grafo = {
+    'início': {'A': 6, 'B': 2},
+    'A': {'fim': 1},
+    'B': {'A': 3, 'fim': 5},
+    'fim': {}
+}
+
+menor_distância, caminho = dijkstra(exemplo_grafo, 'início', 'fim')
+print(f'A menor distância é de {menor_distância}, pelo caminho: {caminho}.')
