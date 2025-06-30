@@ -1,0 +1,31 @@
+regiões_abranger = set(['centro-oeste', 'nordeste', 'norte', 'sudeste', 'sul'])
+
+estações = {}
+estações['estação 1'] = set(['sudeste', 'sul'])
+estações['estação 2'] = set(['centro-oeste', 'nordeste', 'norte'])
+estações['estação 3'] = set(['centro-oeste', 'norte'])
+estações['estação 4'] = set(['sudeste'])
+estações['estação 5'] = set(['sul'])
+
+escolha_estações = set()
+estados_abrangidos = set()
+estações_verificadas = set()
+for e in estações.keys():
+    maior_cobertura = 0
+    melhor_estação = None
+    for estação, cobertura in estações.items():
+        if estação not in estações_verificadas:
+            teste_cobertura = 0
+            for estado in cobertura:
+                if estado not in estados_abrangidos:
+                    teste_cobertura += 1
+            if teste_cobertura > maior_cobertura:
+                maior_cobertura = teste_cobertura
+                melhor_estação = estação
+    if melhor_estação != None:
+        escolha_estações.add(melhor_estação)
+        estados_abrangidos.update(estações[melhor_estação])
+        estações_verificadas.add(melhor_estação)
+    if estados_abrangidos == regiões_abranger:
+        break
+print(f'A escolha aproximada da melhor combinação de estações para abranger o máximo de estados do Brasil é: {escolha_estações}.')
