@@ -1,0 +1,27 @@
+regiões_abranger = set(['centro-oeste', 'nordeste', 'norte', 'sudeste', 'sul'])
+
+estações = {'estação 1': set(['sudeste', 'sul']),
+            'estação 2': set(['centro-oeste', 'nordeste', 'norte']),
+            'estação 3': set(['centro-oeste', 'norte']),
+            'estação 4': set(['sudeste']),
+            'estação 5': set(['sul'])}
+
+estações_teste = list(estações.keys())
+quantidade_estações = len(estações_teste)
+melhor_cobertura = set()
+melhor_combinação = []
+def verificar_combinações(i=0, combinação_atual=[]):
+    global melhor_cobertura, melhor_combinação
+    cobertura_teste = set()
+    for estação in combinação_atual:
+        cobertura_teste.update(estações[estação])
+    if len(cobertura_teste) > len(melhor_cobertura) or (len(cobertura_teste) == len(melhor_cobertura) and len(combinação_atual) < len(melhor_combinação)):
+        melhor_cobertura = cobertura_teste.copy()
+        melhor_combinação = combinação_atual[:]
+    if i == quantidade_estações:
+        return
+    verificar_combinações(i + 1, combinação_atual)
+    verificar_combinações(i + 1, combinação_atual + [estações_teste[i]])
+
+verificar_combinações()
+print(f'A melhor combinação de estações é: {melhor_combinação};\npara abranger as regiões: {melhor_cobertura}.')
