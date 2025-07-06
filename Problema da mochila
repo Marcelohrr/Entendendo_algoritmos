@@ -1,0 +1,50 @@
+mochila = {
+    'garrafa': [15, 1],
+    'estojo': [20, 3],
+    'livro': [30, 4]
+}
+
+suporte_mochila = 4
+
+# dynamic_programming[i] = [valor total máximo com peso i, lista de itens usados]
+dynamic_programming = [[0, []] for _ in range(suporte_mochila + 1)]
+
+for item, (valor, peso) in mochila.items():
+    for capacidade in range(suporte_mochila, peso - 1, -1):
+        if dynamic_programming[capacidade - peso][0] + valor > dynamic_programming[capacidade][0]:
+            dynamic_programming[capacidade][0] = dynamic_programming[capacidade - peso][0] + valor
+            dynamic_programming[capacidade][1] = dynamic_programming[capacidade - peso][1] + [item]
+
+melhor_valor, itens_escolhidos = dynamic_programming[suporte_mochila]
+print(f'Valor total: {melhor_valor}.')
+print(f'Itens escolhidos: {itens_escolhidos}.')
+
+'''
+Funcionamento:
+dp = [[0, []], [0, []], [0, []], [0, []], [0, []]]
+
+for 'garrafa', (15, 1)...:
+    for capacidade == 4:
+        if dp[3][0] + 15 > dp[4][0]: -> if 0 + 15 > 0 -> True
+            dp[4][0] = dp[3][0] + 15
+            dp[4][1] = dp[3][1] + ['garrafa'] -> dp = [[0, []], [0, []], [0, []], [0, []], [15, ['garrafa']]]
+    [...]
+    for capacidade == 1:
+        if dp[0][0] + 15 > dp[1][0]: -> if 0 + 15 > 0 -> True
+            dp[1][0] = dp[0][0] + 15
+            dp[1][1] = dp[0][1] + ['garrafa'] -> dp = [[0, []], [15, ['garrafa']], [15, ['garrafa']], [15, ['garrafa']], [15, ['garrafa']]]
+for 'estojo', (20, 3)...:
+    for capacidade == 4:
+        if dp[1][0] + 20 > dp[4][0]: -> if 35 > 15 -> True
+            dp[4][0] = dp[1][0] + 20
+            dp[4][1] = dp[1][1] + ['estojo'] -> dp = [[0, []], [15, ['garrafa']], [15, ['garrafa']], [15, ['garrafa']], [35, ['garrafa', 'estojo']]]
+    for capacidade == 3:
+        if dp[0][0] + 20 > dp[3][0]: -> if 20 > 15 -> True
+            dp[3][0] = dp[0][0] + 20
+            dp[3][1] = dp[0][1] + ['estojo'] -> dp = [[0, []], [15, ['garrafa']], [15, ['garrafa']], [20, ['estojo']], [35, ['garrafa', 'estojo']]]
+for 'livro', (30, 4)...:
+    for capacidade == 4:
+        if dp[0][0] + 30 > dp[4][0]: -> if 30 > 35 -> False
+
+dp[suporte_mochila] -> [35, ['garrafa', 'estojo']]
+'''
